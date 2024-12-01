@@ -2,10 +2,20 @@
 {
     class Team
     {
-        string manager;
-        string technicians;
+        protected ITWorker Manager { get; private set; }
+        protected string Technicians { get; private set; }
 
-        public string Manager { get => manager; set => manager = value; }
-        public string Technicians { get => technicians; set => technicians = value; }
+
+        public bool assignTeamManager(ITWorker iTWorker)
+        {
+            if (iTWorker.Level != "Senior")
+            {
+                Console.WriteLine("El trabajador debe ser senior para poder ser manager");
+                return false;
+            }
+            this.Manager = iTWorker;
+            return true;
+        }
+
     }
 }

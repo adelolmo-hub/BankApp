@@ -28,11 +28,18 @@
             {
                 if (validStates.Contains(value))
                 {
-                    level = value;
+                    if(value.Equals("Senior") && value.Equals("senior") && yearsOfExperience < 5)
+                    {
+                        Console.WriteLine("Debes tener al menos 5 años para poder ser senior");
+                    }
+                    else
+                    {
+                        level = value;
+                    }
                 }
                 else
                 {
-                    throw new ArgumentException("El nivel debe ser uno de los siguientes: " + string.Join(", ", validStates));
+                    Console.WriteLine("El nivel debe ser uno de los siguientes: " + string.Join(", ", validStates));
                 }
             }
         }
