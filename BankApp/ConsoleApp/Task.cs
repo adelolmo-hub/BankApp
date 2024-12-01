@@ -17,6 +17,15 @@ namespace ConsoleApp
             "Done"
         };
 
+        public Task(int id, string description, string status, string technology, int idWorker)
+        {
+            this.id = id;
+            this.description = description;
+            this.Status = status;
+            this.technology = technology;
+            this.idWorker = idWorker;
+        }
+
         public int Id { get => id; set => id = value; }
         public string Description { get => description; set => description = value; }
         public string Status
@@ -34,6 +43,24 @@ namespace ConsoleApp
             }
         }
         public string Technology { get => technology; set => technology = value; }
-        public int IdWorker { get => idWorker; set => idWorker = value; }
+        public int IdWorker
+        {
+            get => IdWorker; set => assignWorkerToTask(value);
+            
+        }
+
+        private void assignWorkerToTask(int value)
+        {
+            {
+                if (!this.Status.Equals("Done"))
+                {
+                    idWorker = value;
+                }
+                else
+                {
+                    throw new ArgumentException("La tarea esta en estado DONE");
+                }
+            }
+        }
     }
 }

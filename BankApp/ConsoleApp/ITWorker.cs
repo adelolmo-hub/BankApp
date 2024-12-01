@@ -10,8 +10,19 @@
         {
             "Junior",
             "Medium",
-            "Senior"
+            "Senior",
+            "junior",
+            "medium",
+            "senior"
         };
+
+        public ITWorker(int yearsOfExperience, List<string> techKnowledges, string level,string name, string surname, DateTime birthDate, DateTime leavingDate) : base(Worker.itWorkerCount, name, surname, birthDate, leavingDate)
+        {
+            this.yearsOfExperience = yearsOfExperience;
+            this.techKnowledges = techKnowledges;
+            Level = level;
+            Worker.incrementITWorkerCount();
+        }
 
         public string Level { get => level; set
             {
