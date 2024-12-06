@@ -8,7 +8,7 @@
 
         public bool assignTeamManager(ITWorker iTWorker)
         {
-            if (iTWorker.Level != "Senior")
+            if (iTWorker.Level != "Senior" || iTWorker.Level != "Senior")
             {
                 Console.WriteLine("El trabajador debe ser senior para poder ser manager");
                 return false;

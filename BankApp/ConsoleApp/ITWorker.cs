@@ -21,6 +21,7 @@
             this.yearsOfExperience = yearsOfExperience;
             this.techKnowledges = techKnowledges;
             Level = level;
+            this.BirthDate = isAdult(birthDate) ? birthDate : throw new ArgumentException("La edad debe ser superior a 18");
             Worker.incrementITWorkerCount();
         }
 
@@ -28,7 +29,7 @@
             {
                 if (validStates.Contains(value))
                 {
-                    if(value.Equals("Senior") && value.Equals("senior") && yearsOfExperience < 5)
+                    if(value.Equals("Senior") || value.Equals("senior") && yearsOfExperience < 5)
                     {
                         Console.WriteLine("Debes tener al menos 5 años para poder ser senior");
                     }
@@ -46,5 +47,17 @@
 
         public List<string> TechKnowledges { get => techKnowledges; set => techKnowledges = value; }
         public int YearsOfExperience { get => yearsOfExperience; set => yearsOfExperience = value; }
+        private bool isAdult(DateTime birthDate)
+        {
+            DateTime now = DateTime.Now;
+            int years = now.Year - birthDate.Year;
+
+            if (birthDate.AddYears(years) > now)
+            {
+                years--;
+            }
+            return years >= 18;
+        }
+
     }
 }
