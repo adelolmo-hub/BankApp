@@ -2,9 +2,15 @@
 {
     class Team
     {
-        protected ITWorker Manager { get; private set; }
-        protected string Technicians { get; private set; }
+        private ITWorker manager;
+        protected List<Worker> Technicians { get; private set; }
+        protected ITWorker Manager { get => manager; set => assignTeamManager(value); }
 
+        public Team(ITWorker manager, List<Worker> technicians)
+        {
+            assignTeamManager(manager);
+            Technicians = technicians;
+        }
 
         public bool assignTeamManager(ITWorker iTWorker)
         {
