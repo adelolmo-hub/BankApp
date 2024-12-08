@@ -8,7 +8,7 @@ namespace ConsoleApp
         private string description;
         private string status;
         private string technology;
-        private int idWorker;
+        protected int idWorker { get; private set; }
 
         private static readonly HashSet<string> validStatus = new HashSet<string>
         {
@@ -16,6 +16,15 @@ namespace ConsoleApp
             "Doing",
             "Done"
         };
+
+        public Task(int id, string description, string status, string technology, int idWorker)
+        {
+            this.id = id;
+            this.description = description;
+            this.Status = status;
+            this.technology = technology;
+            this.idWorker = idWorker;
+        }
 
         public int Id { get => id; set => id = value; }
         public string Description { get => description; set => description = value; }
@@ -34,6 +43,23 @@ namespace ConsoleApp
             }
         }
         public string Technology { get => technology; set => technology = value; }
-        public int IdWorker { get => idWorker; set => idWorker = value; }
+
+        private bool assignWorkerToTask(ITWorker iTWorker)
+        {
+            {
+                if (this.Status.Equals("Done"))
+                {
+                    Console.WriteLine("La tarea esta temrinada y no se puede assignar");
+                    return false; 
+                }
+                if(!iTWorker.TechKnowledges.Contains(technology))
+                {
+                    Console.WriteLine("El trabajador no conoce la tecnologia necesaria");
+                    return false;
+                }
+                idWorker = iTWorker.Id;
+                return true;
+            }
+        }
     }
 }

@@ -6,27 +6,39 @@
         private List<string> techKnowledges;
         private string level;
 
-        private static readonly HashSet<string> validStates = new HashSet<string>
+        
+
+        public ITWorker(int yearsOfExperience, List<string> techKnowledges, string level,string name, string surname, DateTime birthDate, DateTime leavingDate) : base(Worker.itWorkerCount, name, surname, birthDate, leavingDate)
         {
-            "Junior",
-            "Medium",
-            "Senior"
-        };
+            this.yearsOfExperience = yearsOfExperience;
+            this.techKnowledges = techKnowledges;
+            Level = level;
+            this.BirthDate = isAdult(birthDate) ? birthDate : throw new ArgumentException("La edad debe ser superior a 18");
+            Worker.incrementITWorkerCount();
+        }
 
         public string Level { get => level; set
             {
-                if (validStates.Contains(value))
+                if (Utils.levelisValid(value, this.yearsOfExperience))
                 {
                     level = value;
-                }
-                else
-                {
-                    throw new ArgumentException("El nivel debe ser uno de los siguientes: " + string.Join(", ", validStates));
                 }
             }
         }
 
         public List<string> TechKnowledges { get => techKnowledges; set => techKnowledges = value; }
         public int YearsOfExperience { get => yearsOfExperience; set => yearsOfExperience = value; }
+        private bool isAdult(DateTime birthDate)
+        {
+            DateTime now = DateTime.Now;
+            int years = now.Year - birthDate.Year;
+
+            if (birthDate.AddYears(years) > now)
+            {
+                years--;
+            }
+            return years >= 18;
+        }
+
     }
 }
