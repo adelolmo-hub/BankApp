@@ -29,5 +29,15 @@
             itWorkerCount++;
         }
 
+        public string printWorkerInfo()
+        {
+            return $"Empleado:\n" +
+                   $"ID: {id}\n" +
+                   $"Nombre: {name}\n" +
+                   $"Apellido: {surname}\n" +
+                   $"Fecha de Nacimiento: {birthDate:dd/MM/yyyy}\n" +
+                   $"Fecha de Salida: {leavingDate:dd/MM/yyyy}\n";
+        }
+
     }
 }

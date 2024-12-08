@@ -8,6 +8,15 @@ namespace ConsoleApp
 {
     class Utils
     {
+        private static readonly HashSet<string> validStates = new HashSet<string>
+        {
+            "Junior",
+            "Medium",
+            "Senior",
+            "junior",
+            "medium",
+            "senior"
+        };
         public static int readInt()
         {
             int read = 0;
@@ -19,6 +28,20 @@ namespace ConsoleApp
                     break;
                 }
                 
+            }
+            return read;
+        }
+        public static DateTime readDate()
+        {
+            DateTime read;
+            while (true)
+            {
+                Console.WriteLine("Introduce la fecha en el siguiente formato (DD/MM/YYYY)");
+                if (DateTime.TryParse(Console.ReadLine(), out read))
+                {
+                    break;
+                }
+
             }
             return read;
         }
@@ -56,6 +79,26 @@ namespace ConsoleApp
                 }
             }
             return list;
+        }
+        public static bool levelisValid(string value, int yearsOfExperience)
+        {
+            if (validStates.Contains(value))
+            {
+                if (value.Equals("Senior") || value.Equals("senior") && yearsOfExperience < 5)
+                {
+                    Console.WriteLine("Debes tener al menos 5 años para poder ser senior");
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                Console.WriteLine("El nivel debe ser uno de los siguientes: " + string.Join(", ", validStates));
+                return false;
+            }
         }
     }
 }
