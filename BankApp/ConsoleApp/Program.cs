@@ -16,9 +16,9 @@ class Program
         int option;
 
         ITWorker i = new ITWorker(1,new List<string> { ".Net","JavaScript"},"junior","mikel","maricon",new DateTime(2003,05,01),new DateTime(2024,02,01));
-        ITWorker x = new ITWorker(1, new List<string> { ".Net","SQL" }, "senior", "mikel", "maricon", new DateTime(2000, 03, 01), new DateTime(2024, 02, 01));
-        Worker admin = new Worker(0, "admin", "gay", new DateTime(2000, 05, 07), new DateTime(2026, 02, 01));
-        Worker pringao = new Worker(1, "noadmin", "gay", new DateTime(2000, 05, 07), new DateTime(2026, 02, 01));
+        ITWorker x = new ITWorker(5, new List<string> { ".Net","SQL" }, "senior", "mikel", "maricon", new DateTime(2000, 03, 01), new DateTime(2024, 02, 01));
+        Worker admin = new Worker(-1, "admin", "gay", new DateTime(2000, 05, 07), new DateTime(2026, 02, 01));
+        Worker pringao = new Worker(-2, "noadmin", "gay", new DateTime(2000, 05, 07), new DateTime(2026, 02, 01));
         workers.Add(admin);
         workers.Add(pringao);
         workers.Add(x);
@@ -44,6 +44,8 @@ class Program
                     bool moreWorkers = true;
                     int idWorker;
                     string customerInput;
+                    Worker workerFound;
+                    ITWorker manager = null;
                     List<Worker> workerList = new List<Worker>();
                     listAllWorkers();
 
@@ -51,7 +53,7 @@ class Program
                     while (moreWorkers)
                     {
                         idWorker = Utils.readInt();
-                        Worker workerFound = workers.Find(it => it.Id == idWorker);
+                        workerFound = workers.Find(it => it.Id == idWorker);
                         if(workerFound != null)
                         {
                             workerList.Add(workerFound);
@@ -80,9 +82,24 @@ class Program
                             }
                         }
                     }
-                    //TODO añadir manager y crear team
-                    Console.WriteLine(workerList[0].printWorkerInfo());
-
+                    moreWorkers = true;
+                    listAllWorkers();
+                    while (moreWorkers)
+                    {
+                        Console.WriteLine("Introduce el id del manager del equipo");
+                        idWorker = Utils.readInt();
+                        workerFound = workers.Find(it => it.Id == idWorker);
+                        if (workerFound != null && workerFound is ITWorker)
+                        {
+                            manager = workerFound as ITWorker;
+                            moreWorkers = false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("El trabajador no existe o no es un ITWorker");
+                        }
+                    }
+                    Team newTeam = new Team(manager, workerList);
                     break;
                 case 3:
                     break;
