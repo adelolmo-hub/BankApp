@@ -41,65 +41,7 @@ class Program
                     workers.Add(registerNewITWorker());
                     break;
                 case 2:
-                    bool moreWorkers = true;
-                    int idWorker;
-                    string customerInput;
-                    Worker workerFound;
-                    ITWorker manager = null;
-                    List<Worker> workerList = new List<Worker>();
-                    listAllWorkers();
-
-                    Console.WriteLine("Selecciona los integrantes del nuevo equipo (Introduce el id)");
-                    while (moreWorkers)
-                    {
-                        idWorker = Utils.readInt();
-                        workerFound = workers.Find(it => it.Id == idWorker);
-                        if(workerFound != null)
-                        {
-                            workerList.Add(workerFound);
-                        }
-                        else
-                        {
-                            Console.WriteLine("El trabajador no existe");
-                        }
-                       
-                        while (true)
-                        {
-                            Console.WriteLine("Quieres añadir mas integrantes? (introduce Y/N)");
-                            customerInput = Console.ReadLine();
-                            if (customerInput == "N" || customerInput == "n")
-                            {
-                                moreWorkers = false;
-                                break;
-                            }
-                            else if(customerInput == "Y" || customerInput == "y")
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Introduce un valor valido");
-                            }
-                        }
-                    }
-                    moreWorkers = true;
-                    listAllWorkers();
-                    while (moreWorkers)
-                    {
-                        Console.WriteLine("Introduce el id del manager del equipo");
-                        idWorker = Utils.readInt();
-                        workerFound = workers.Find(it => it.Id == idWorker);
-                        if (workerFound != null && workerFound is ITWorker)
-                        {
-                            manager = workerFound as ITWorker;
-                            moreWorkers = false;
-                        }
-                        else
-                        {
-                            Console.WriteLine("El trabajador no existe o no es un ITWorker");
-                        }
-                    }
-                    Team newTeam = new Team(manager, workerList);
+                    createTeam();
                     break;
                 case 3:
                     break;
@@ -113,6 +55,40 @@ class Program
                     break;
             }
         }
+    }
+
+    static void createTeam()
+    {
+        bool moreWorkers = true;
+        int idWorker;
+        ITWorker manager = null;
+        List<Worker> workerList = new List<Worker>();
+        listAllWorkers();
+
+        Console.WriteLine("Selecciona los integrantes del nuevo equipo (Introduce el id)");
+        while (moreWorkers)
+        {
+            workerList.Add(WorkersHelper.SelectWorker(workers));
+            Console.WriteLine("Quieres añadir mas integrantes? (introduce Y/N)");
+            moreWorkers = Utils.CustomerConfirmAction();
+            
+        }
+        moreWorkers = true;
+        listAllWorkers();
+        Console.WriteLine("Introduce el id del manager del equipo");
+        while (moreWorkers)
+        {
+            manager = WorkersHelper.SelectWorker(workers);
+            if(manager != null && manager is ITWorker)
+            {
+                moreWorkers = false;
+            }
+            else
+            {
+                Console.WriteLine("El trabajador debe ser un ITWorker");
+            }
+        }
+        Team newTeam = new Team(manager, workerList);
     }
 
     private static void listAllWorkers()

@@ -100,7 +100,25 @@ namespace ConsoleApp
                 return false;
             }
         }
-       
+        public static bool CustomerConfirmAction()
+        {
+            while (true)
+            {
+                string customerInput = Console.ReadLine();
+                if (customerInput == "N" || customerInput == "n")
+                {
+                    return false;
+                }
+                else if (customerInput == "Y" || customerInput == "y")
+                {
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("Introduce un valor valido");
+                }
+            }
+        }
     }
 }
 
