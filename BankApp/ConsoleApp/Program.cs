@@ -25,7 +25,9 @@ class Program
         workers.Add(i);
 
         ConsoleApp.Task task = new ConsoleApp.Task("Crear un formulario de registro", "To do", ".Net", 2);
+        ConsoleApp.Task task2 = new ConsoleApp.Task("Crear un formulario de registro", "To do", ".Net", null);
         taskList.Add(task);
+        taskList.Add(task2);
 
         Team team = new Team("Equipo 1", x, new List<Worker>());
         teamList.Add(team);
@@ -61,7 +63,10 @@ class Program
                 case 6:
                     for (int y = 0; y < taskList.Count; y++)
                     {
-                        Console.WriteLine(taskList[y].ToString());
+                        if (taskList[y].idWorker != null)
+                        {
+                            Console.WriteLine(taskList[y].ToString());
+                        }
                     }
                     break;
                 case 7:
@@ -126,7 +131,7 @@ class Program
         }
         Console.WriteLine("Introduce la tecnologia de la tarea");
         technology = Console.ReadLine();
-        taskList.Add(new ConsoleApp.Task(description, status, technology, 0));
+        taskList.Add(new ConsoleApp.Task(description, status, technology, null));
     }
 
     private static void listAllWorkers()

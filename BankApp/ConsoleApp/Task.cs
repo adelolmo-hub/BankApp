@@ -5,10 +5,10 @@ namespace ConsoleApp
     class Task
     {
         protected int id { get; private set; }
-        private string description;
-        private string status;
-        private string technology;
-        protected int idWorker { get; private set; }
+        public string description;
+        public string status;
+        public string technology;
+        public int? idWorker { get; private set; }
         private static int IdCount = 0;
 
         private static readonly HashSet<string> validStatus = new HashSet<string>
@@ -18,7 +18,7 @@ namespace ConsoleApp
             "Done"
         };
 
-        public Task( string description, string status, string technology, int idWorker)
+        public Task(string description, string status, string technology, int? idWorker)
         {
             incrementID();
             this.id = IdCount;
