@@ -24,10 +24,10 @@ class Program
         workers.Add(x);
         workers.Add(i);
 
-        ConsoleApp.Task task = new ConsoleApp.Task(1, "Crear un formulario de registro", "To do", ".Net", 2);
+        ConsoleApp.Task task = new ConsoleApp.Task("Crear un formulario de registro", "To do", ".Net", 2);
         taskList.Add(task);
 
-        Team team = new Team(x, new List<Worker>());
+        Team team = new Team("Equipo 1", x, new List<Worker>());
         teamList.Add(team);
 
         while (true)
@@ -44,12 +44,25 @@ class Program
                     createTeam();
                     break;
                 case 3:
+                    createTask();
                     break;
                 case 4:
+                    for (int y = 0; y < teamList.Count; y++)
+                    {
+                        Console.WriteLine("Equipo: " + teamList[y].Name);
+                    }
                     break;
                 case 5:
+                    for (int y = 0; y < teamList.Count; y++)
+                    {
+                        teamList[y].PrintWorkerInfo();
+                    }
                     break;
                 case 6:
+                    for (int y = 0; y < taskList.Count; y++)
+                    {
+                        Console.WriteLine(taskList[y].ToString());
+                    }
                     break;
                 case 7:
                     break;
@@ -61,9 +74,13 @@ class Program
     {
         bool moreWorkers = true;
         int idWorker;
+        string name;
         ITWorker manager = null;
         List<Worker> workerList = new List<Worker>();
         listAllWorkers();
+
+        Console.WriteLine("Escribe el nombre del nuevo equipo");
+        name = Console.ReadLine();
 
         Console.WriteLine("Selecciona los integrantes del nuevo equipo (Introduce el id)");
         while (moreWorkers)
@@ -75,6 +92,7 @@ class Program
         }
         moreWorkers = true;
         listAllWorkers();
+        //TODO - ARREGLAR MANAGER FALLA SI NO ES SENIOR
         Console.WriteLine("Introduce el id del manager del equipo");
         while (moreWorkers)
         {
@@ -88,7 +106,27 @@ class Program
                 Console.WriteLine("El trabajador debe ser un ITWorker");
             }
         }
-        Team newTeam = new Team(manager, workerList);
+        Team newTeam = new Team(name, manager, workerList);
+    }
+
+    static void createTask()
+    {
+        string description = "";
+        string status = "";
+        string technology = "";
+        bool statusOK = false;
+
+        Console.WriteLine("Introduce la descripcion de la tarea");
+        description = Console.ReadLine();
+        while (!statusOK)
+        {
+            Console.WriteLine("Introduce el estado de la tarea (To do, Doing, Done)");
+            status = Console.ReadLine();
+            statusOK = ConsoleApp.Task.checkStatus(status);
+        }
+        Console.WriteLine("Introduce la tecnologia de la tarea");
+        technology = Console.ReadLine();
+        taskList.Add(new ConsoleApp.Task(description, status, technology, 0));
     }
 
     private static void listAllWorkers()

@@ -17,7 +17,7 @@ namespace ConsoleApp
 
                 if (workerFound is ITWorker itWorker)
                 {
-                    Console.WriteLine($"Manager seleccionado: {itWorker.Name}");
+                    Console.WriteLine($"Trabajador seleccionado: {itWorker.Name}");
                     return itWorker;
                 }
                 else
