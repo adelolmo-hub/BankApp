@@ -17,20 +17,30 @@ class Program
 
         ITWorker i = new ITWorker(1,new List<string> { ".Net","JavaScript"},"junior","mikel","maricon",new DateTime(2003,05,01),new DateTime(2024,02,01));
         ITWorker x = new ITWorker(5, new List<string> { ".Net","SQL" }, "senior", "mikel", "maricon", new DateTime(2000, 03, 01), new DateTime(2024, 02, 01));
+        ITWorker h = new ITWorker(6, new List<string> { ".Net", "JavaScript","SQL" }, "senior", "mikel", "maricon", new DateTime(2003, 05, 01), new DateTime(2024, 02, 01));
+        ITWorker z = new ITWorker(7, new List<string> { ".Net", "SQL", "Java" }, "medium", "mikel", "maricon", new DateTime(2000, 03, 01), new DateTime(2024, 02, 01));
         Worker admin = new Worker(-1, "admin", "gay", new DateTime(2000, 05, 07), new DateTime(2026, 02, 01));
         Worker pringao = new Worker(-2, "noadmin", "gay", new DateTime(2000, 05, 07), new DateTime(2026, 02, 01));
         workers.Add(admin);
         workers.Add(pringao);
         workers.Add(x);
         workers.Add(i);
+        workers.Add(h);
+        workers.Add(z);
 
-        ConsoleApp.Task task = new ConsoleApp.Task("Crear un formulario de registro", "To do", ".Net", 2);
-        ConsoleApp.Task task2 = new ConsoleApp.Task("Crear un formulario de registro", "To do", ".Net", null);
+        ConsoleApp.Task task = new ConsoleApp.Task("Crear un formulario de registro", "To do", ".Net", i);
+        ConsoleApp.Task task3 = new ConsoleApp.Task("Hacer un moha", "To do", ".Net", h);
+        ConsoleApp.Task task4 = new ConsoleApp.Task("Dormir", "Doing", ".Net", z);
+        ConsoleApp.Task task2 = new ConsoleApp.Task("Testear el formulario de registro", "To do", ".Net", null);
         taskList.Add(task);
         taskList.Add(task2);
+        taskList.Add(task3);
+        taskList.Add(task4);
 
-        Team team = new Team("Equipo 1", x, new List<Worker>());
+        Team team = new Team("Equipo 1", x, new List<Worker> {i});
+        Team team2 = new Team("Equipo 2", h, new List<Worker> {i,h,z});
         teamList.Add(team);
+        teamList.Add(team2);
 
         while (true)
         {
@@ -63,13 +73,29 @@ class Program
                 case 6:
                     for (int y = 0; y < taskList.Count; y++)
                     {
-                        if (taskList[y].idWorker != null)
+                        if (taskList[y].WorkerAssigned == null)
                         {
                             Console.WriteLine(taskList[y].ToString());
                         }
                     }
                     break;
                 case 7:
+                    for(int y = 0; y < teamList.Count; y++)
+                    {
+                        Console.WriteLine("Equipo: " + teamList[y].name);
+                        Console.WriteLine(teamList[y].getTasksAssigned(taskList));
+                        Console.WriteLine("---------------------------------------");
+                    }
+                    break;
+                case 8:
+                    break;
+                case 9:
+                    break;
+                case 10:
+                    break;
+                case 11:
+                    break;
+                case 12:
                     break;
             }
         }

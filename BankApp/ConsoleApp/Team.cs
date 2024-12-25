@@ -14,6 +14,7 @@ namespace ConsoleApp
         {
             assignTeamManager(manager);
             Technicians = technicians;
+            this.name = name;
         }
 
         public bool assignTeamManager(ITWorker iTWorker)
@@ -37,6 +38,23 @@ namespace ConsoleApp
                 Console.WriteLine("Worker nº " + i);
                 Console.WriteLine(Technicians[i].printWorkerInfo());
             }
+        }
+
+        public string getTasksAssigned(List<Task> tasks)
+        {
+            string taskByTeam = "";
+            for (int i = 0; i < Technicians.Count; i++) 
+            {
+                for(int y = 0; y < tasks.Count; y++)
+                {
+                    if (Technicians[i].Equals(tasks[y].WorkerAssigned))
+                    {
+                        taskByTeam += tasks[y].ToString();
+                        taskByTeam += ".............................\n";
+                    }
+                }
+            }
+            return taskByTeam;
         }
 
     }

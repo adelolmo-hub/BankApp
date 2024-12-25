@@ -4,11 +4,11 @@ namespace ConsoleApp
 {
     class Task
     {
-        protected int id { get; private set; }
+        protected int Id { get; private set; }
         public string description;
         public string status;
         public string technology;
-        public int? idWorker { get; private set; }
+        public ITWorker WorkerAssigned { get; private set; }
         private static int IdCount = 0;
 
         private static readonly HashSet<string> validStatus = new HashSet<string>
@@ -18,14 +18,14 @@ namespace ConsoleApp
             "Done"
         };
 
-        public Task(string description, string status, string technology, int? idWorker)
+        public Task(string description, string status, string technology, ITWorker ITWorker)
         {
             incrementID();
-            this.id = IdCount;
+            this.Id = IdCount;
             this.description = description;
             this.Status = status;
             this.technology = technology;
-            this.idWorker = idWorker;
+            this.WorkerAssigned = ITWorker;
         }
 
         public string Description { get => description; set => description = value; }
@@ -54,7 +54,7 @@ namespace ConsoleApp
                     Console.WriteLine("El trabajador no conoce la tecnologia necesaria");
                     return false;
                 }
-                idWorker = iTWorker.Id;
+                WorkerAssigned = iTWorker;
                 return true;
             }
         }
@@ -80,11 +80,11 @@ namespace ConsoleApp
         public string ToString()
         {
             return $"Detalles de la tarea:\n" +
-               $"ID: {id}\n" +
+               $"ID: {Id}\n" +
                $"Descripción: {description}\n" +
                $"Estado: {status}\n" +
                $"Tecnología: {technology}\n" +
-               $"ID del Trabajador: {idWorker}\n";
+               $"ID del Trabajador: {WorkerAssigned?.Name ?? "No assignado"}\n";
         }
     }
 }
