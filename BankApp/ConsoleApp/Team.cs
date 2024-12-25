@@ -19,6 +19,7 @@ namespace ConsoleApp
 
         public bool assignTeamManager(ITWorker iTWorker)
         {
+
             if (iTWorker.Level != "Senior" && iTWorker.Level != "senior")
             {
                 Console.WriteLine("El trabajador debe ser senior para poder ser manager");

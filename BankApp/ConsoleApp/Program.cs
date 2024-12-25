@@ -19,6 +19,7 @@ class Program
         ITWorker x = new ITWorker(5, new List<string> { ".Net","SQL" }, "senior", "mikel", "maricon", new DateTime(2000, 03, 01), new DateTime(2024, 02, 01));
         ITWorker h = new ITWorker(6, new List<string> { ".Net", "JavaScript","SQL" }, "senior", "mikel", "maricon", new DateTime(2003, 05, 01), new DateTime(2024, 02, 01));
         ITWorker z = new ITWorker(7, new List<string> { ".Net", "SQL", "Java" }, "medium", "mikel", "maricon", new DateTime(2000, 03, 01), new DateTime(2024, 02, 01));
+        ITWorker nuevoManager = new ITWorker(7, new List<string> { ".Net", "SQL", "Java" }, "senior", "nuevo", "nuevo", new DateTime(2000, 03, 01), new DateTime(2024, 02, 01));
         Worker admin = new Worker(-1, "admin", "gay", new DateTime(2000, 05, 07), new DateTime(2026, 02, 01));
         Worker pringao = new Worker(-2, "noadmin", "gay", new DateTime(2000, 05, 07), new DateTime(2026, 02, 01));
         workers.Add(admin);
@@ -27,6 +28,7 @@ class Program
         workers.Add(i);
         workers.Add(h);
         workers.Add(z);
+        workers.Add(nuevoManager);
 
         ConsoleApp.Task task = new ConsoleApp.Task("Crear un formulario de registro", "To do", ".Net", i);
         ConsoleApp.Task task3 = new ConsoleApp.Task("Hacer un moha", "To do", ".Net", h);
@@ -59,16 +61,10 @@ class Program
                     createTask();
                     break;
                 case 4:
-                    for (int y = 0; y < teamList.Count; y++)
-                    {
-                        Console.WriteLine("Equipo: " + teamList[y].Name);
-                    }
+                    printTeams();
                     break;
                 case 5:
-                    for (int y = 0; y < teamList.Count; y++)
-                    {
-                        teamList[y].PrintWorkerInfo();
-                    }
+                    printWorkers();
                     break;
                 case 6:
                     for (int y = 0; y < taskList.Count; y++)
@@ -88,6 +84,22 @@ class Program
                     }
                     break;
                 case 8:
+                    Team selectedTeam;
+                    Worker selectedWorker;
+                    Console.WriteLine("Selecciona el equipo al que quieres cambiar el manager");
+                    printTeams();
+                    selectedTeam = (Team)Utils.findByPosition(teamList);
+                    Console.WriteLine("Elige quien va a ser el nuevo manager");
+                    listAllWorkers();
+                    selectedWorker = (Worker)Utils.findByPosition(workers);
+                    if(selectedWorker is ITWorker)
+                    {
+                        selectedTeam.assignTeamManager((ITWorker)selectedWorker);
+                    }
+                    else
+                    {
+                        Console.WriteLine("El trabajador que has seleccionado no es un trabajador IT por lo que no puede ser Manager");
+                    }
                     break;
                 case 9:
                     break;
@@ -98,6 +110,22 @@ class Program
                 case 12:
                     break;
             }
+        }
+    }
+
+    private static void printWorkers()
+    {
+        for (int y = 0; y < teamList.Count; y++)
+        {
+            teamList[y].PrintWorkerInfo();
+        }
+    }
+
+    private static void printTeams()
+    {
+        for (int y = 0; y < teamList.Count; y++)
+        {
+            Console.WriteLine("Equipo: " + teamList[y].Name);
         }
     }
 

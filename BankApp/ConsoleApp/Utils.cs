@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -116,6 +117,23 @@ namespace ConsoleApp
                 else
                 {
                     Console.WriteLine("Introduce un valor valido");
+                }
+            }
+        }
+
+        public static object findByPosition<T>(List<T> list)
+        {
+            int input;
+            while (true)
+            {
+                input = Utils.readInt();
+                if (list.Count() >= input && input >= 1)
+                {
+                    return list[input - 1];
+                }
+                else
+                {
+                    Console.WriteLine("El valor que has introducido no existe");
                 }
             }
         }

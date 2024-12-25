@@ -25,7 +25,7 @@ namespace ConsoleApp
             this.description = description;
             this.Status = status;
             this.technology = technology;
-            this.WorkerAssigned = ITWorker;
+            assignWorkerToTask(ITWorker);
         }
 
         public string Description { get => description; set => description = value; }
@@ -49,7 +49,7 @@ namespace ConsoleApp
                     Console.WriteLine("La tarea esta terminada y no se puede assignar");
                     return false; 
                 }
-                if(!iTWorker.TechKnowledges.Contains(technology))
+                if(!iTWorker?.TechKnowledges.Contains(technology) ?? false)
                 {
                     Console.WriteLine("El trabajador no conoce la tecnologia necesaria");
                     return false;
