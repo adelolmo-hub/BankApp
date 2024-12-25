@@ -25,7 +25,7 @@ namespace ConsoleApp
             this.description = description;
             this.Status = status;
             this.technology = technology;
-            assignWorkerToTask(ITWorker);
+            AssignWorkerToTask(ITWorker);
         }
 
         public string Description { get => description; set => description = value; }
@@ -41,7 +41,7 @@ namespace ConsoleApp
         }
         public string Technology { get => technology; set => technology = value; }
 
-        private bool assignWorkerToTask(ITWorker iTWorker)
+        public bool AssignWorkerToTask(ITWorker iTWorker)
         {
             {
                 if (this.Status.Equals("Done"))

@@ -12,12 +12,12 @@ namespace ConsoleApp
 
         public Team(string name, ITWorker manager, List<Worker> technicians)
         {
-            assignTeamManager(manager);
+            AssignTeamManager(manager);
             Technicians = technicians;
             this.name = name;
         }
 
-        public bool assignTeamManager(ITWorker iTWorker)
+        public bool AssignTeamManager(ITWorker iTWorker)
         {
 
             if (iTWorker.Level != "Senior" && iTWorker.Level != "senior")
@@ -26,6 +26,20 @@ namespace ConsoleApp
                 return false;
             }
             this.Manager = iTWorker;
+            return true;
+        }
+
+        public bool AssignNewTechnician(ITWorker itWorker)
+        {
+            if (Technicians.Contains(itWorker))
+            {
+                Console.WriteLine("Este trabajador ya esta asignado al equipo");
+                return false;
+            }
+            else
+            {
+                Technicians.Add(itWorker);
+            }
             return true;
         }
 
@@ -41,7 +55,7 @@ namespace ConsoleApp
             }
         }
 
-        public string getTasksAssigned(List<Task> tasks)
+        public string GetTasksAssigned(List<Task> tasks)
         {
             string taskByTeam = "";
             for (int i = 0; i < Technicians.Count; i++) 

@@ -44,7 +44,8 @@ class Program
         teamList.Add(team);
         teamList.Add(team2);
 
-        while (true)
+        bool menuLoop = true;
+        while (menuLoop)
         {
             Console.WriteLine("Introduce un numero para elegir una opcion");
             Console.WriteLine(menu);
@@ -52,21 +53,27 @@ class Program
             switch (option) 
             {
                 case 1:
+                    // 1. Register new IT worker
                     workers.Add(registerNewITWorker());
                     break;
                 case 2:
+                    // 2. Register new team
                     createTeam();
                     break;
                 case 3:
+                    //3. Register new task (unassigned to anyone)
                     createTask();
                     break;
                 case 4:
+                    // 4. List all team names
                     printTeams();
                     break;
                 case 5:
+                    //5. List team members by team name
                     printWorkers();
                     break;
                 case 6:
+                    //6. List unassigned tasks
                     for (int y = 0; y < taskList.Count; y++)
                     {
                         if (taskList[y].WorkerAssigned == null)
@@ -76,25 +83,27 @@ class Program
                     }
                     break;
                 case 7:
-                    for(int y = 0; y < teamList.Count; y++)
+                    //7. List task assignments by team name
+                    for (int y = 0; y < teamList.Count; y++)
                     {
                         Console.WriteLine("Equipo: " + teamList[y].name);
-                        Console.WriteLine(teamList[y].getTasksAssigned(taskList));
+                        Console.WriteLine(teamList[y].GetTasksAssigned(taskList));
                         Console.WriteLine("---------------------------------------");
                     }
                     break;
                 case 8:
+                    //8.Assign IT worker to a team as manager
                     Team selectedTeam;
-                    Worker selectedWorker;
+                    Worker selectedManager;
                     Console.WriteLine("Selecciona el equipo al que quieres cambiar el manager");
                     printTeams();
                     selectedTeam = (Team)Utils.findByPosition(teamList);
                     Console.WriteLine("Elige quien va a ser el nuevo manager");
                     listAllWorkers();
-                    selectedWorker = (Worker)Utils.findByPosition(workers);
-                    if(selectedWorker is ITWorker)
+                    selectedManager = (Worker)Utils.findByPosition(workers);
+                    if(selectedManager is ITWorker)
                     {
-                        selectedTeam.assignTeamManager((ITWorker)selectedWorker);
+                        selectedTeam.AssignTeamManager((ITWorker)selectedManager);
                     }
                     else
                     {
@@ -102,12 +111,55 @@ class Program
                     }
                     break;
                 case 9:
+                    //9.Assign IT worker to a team as technician
+                    Team teamSelected;
+                    Worker selectedWorker;
+                    Console.WriteLine("Selecciona el equipo al que quieres añadir un trabajador");
+                    printTeams();
+                    teamSelected = (Team)Utils.findByPosition(teamList);
+                    Console.WriteLine("Elige quien va a ser el nuevo trabajador");
+                    listAllWorkers();
+                    selectedWorker = (Worker)Utils.findByPosition(workers);
+                    if (selectedWorker is ITWorker)
+                    {
+                        teamSelected.AssignNewTechnician((ITWorker)selectedWorker);
+                    }
+                    else
+                    {
+                        Console.WriteLine("El trabajador que has seleccionado no es un trabajador IT por lo que no puede ser Manager");
+                    }
                     break;
                 case 10:
+                    //10.Assign task to IT worker
+                    ConsoleApp.Task selectedTask;
+                    Worker workerSelected;
+                    Console.WriteLine("Selecciona la tarea que quieres assignar");
+                    for (int y = 0; y < taskList.Count; y++)
+                    {
+                        Console.WriteLine("Tarea nº: " + (y+1));
+                        Console.WriteLine(taskList[y].ToString());
+                        Console.WriteLine("----------------------------");
+                    }
+                    selectedTask = (ConsoleApp.Task)Utils.findByPosition(taskList);
+                    Console.WriteLine("Elige al trabajador asignado");
+                    listAllWorkers();
+                    workerSelected = (Worker)Utils.findByPosition(workers);
+                    if (workerSelected is ITWorker)
+                    {
+                        selectedTask.AssignWorkerToTask((ITWorker)workerSelected);
+                    }
+                    else
+                    {
+                        Console.WriteLine("El trabajador que has seleccionado no es un trabajador IT por lo que no puede ser Manager");
+                    }
+
                     break;
                 case 11:
+                    //11.Unregister IT worker
                     break;
                 case 12:
+                    //12.Exit
+                    menuLoop = false;
                     break;
             }
         }
