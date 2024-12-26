@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -100,7 +101,42 @@ namespace ConsoleApp
                 return false;
             }
         }
-       
+        public static bool CustomerConfirmAction()
+        {
+            while (true)
+            {
+                string customerInput = Console.ReadLine();
+                if (customerInput == "N" || customerInput == "n")
+                {
+                    return false;
+                }
+                else if (customerInput == "Y" || customerInput == "y")
+                {
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("Introduce un valor valido");
+                }
+            }
+        }
+
+        public static object findByPosition<T>(List<T> list)
+        {
+            int input;
+            while (true)
+            {
+                input = Utils.readInt();
+                if (list.Count() >= input && input >= 1)
+                {
+                    return list[input - 1];
+                }
+                else
+                {
+                    Console.WriteLine("El valor que has introducido no existe");
+                }
+            }
+        }
     }
 }
 

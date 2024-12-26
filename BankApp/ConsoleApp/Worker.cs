@@ -39,5 +39,7 @@
                    $"Fecha de Salida: {leavingDate:dd/MM/yyyy}\n";
         }
 
+        
+
     }
 }

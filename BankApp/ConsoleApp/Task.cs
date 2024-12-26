@@ -4,11 +4,12 @@ namespace ConsoleApp
 {
     class Task
     {
-        private int id;
-        private string description;
-        private string status;
-        private string technology;
-        protected int idWorker { get; private set; }
+        protected int Id { get; private set; }
+        public string description;
+        public string status;
+        public string technology;
+        public ITWorker WorkerAssigned { get; private set; }
+        private static int IdCount = 0;
 
         private static readonly HashSet<string> validStatus = new HashSet<string>
         {
@@ -17,49 +18,77 @@ namespace ConsoleApp
             "Done"
         };
 
-        public Task(int id, string description, string status, string technology, int idWorker)
+        public Task(string description, string status, string technology, ITWorker ITWorker)
         {
-            this.id = id;
+            incrementID();
+            this.Id = IdCount;
             this.description = description;
             this.Status = status;
             this.technology = technology;
-            this.idWorker = idWorker;
+            AssignWorkerToTask(ITWorker);
         }
 
-        public int Id { get => id; set => id = value; }
         public string Description { get => description; set => description = value; }
         public string Status
         {
             get => status; set
             {
-                if (validStatus.Contains(value))
+                if (checkStatus(value))
                 {
                     status = value;
-                }
-                else
-                {
-                    throw new ArgumentException("El estado debe ser uno de los siguientes: " + string.Join(", ", validStatus));
                 }
             }
         }
         public string Technology { get => technology; set => technology = value; }
 
-        private bool assignWorkerToTask(ITWorker iTWorker)
+        public bool AssignWorkerToTask(ITWorker iTWorker)
         {
             {
                 if (this.Status.Equals("Done"))
                 {
-                    Console.WriteLine("La tarea esta temrinada y no se puede assignar");
+                    Console.WriteLine("La tarea esta terminada y no se puede assignar");
                     return false; 
                 }
-                if(!iTWorker.TechKnowledges.Contains(technology))
+                if(!iTWorker?.TechKnowledges.Contains(technology) ?? false)
                 {
                     Console.WriteLine("El trabajador no conoce la tecnologia necesaria");
                     return false;
                 }
-                idWorker = iTWorker.Id;
+                WorkerAssigned = iTWorker;
                 return true;
             }
+        }
+        public void removeWorkerFromTask()
+        {
+            this.WorkerAssigned = null;
+        }
+
+        private void incrementID()
+        {
+            IdCount++;
+        }
+
+        public static bool checkStatus(string status)
+        {
+            if (validStatus.Contains(status))
+            {
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("El estado debe ser uno de los siguientes: " + string.Join(", ", validStatus));
+                return false;
+            }
+        }
+
+        public string ToString()
+        {
+            return $"Detalles de la tarea:\n" +
+               $"ID: {Id}\n" +
+               $"Descripción: {description}\n" +
+               $"Estado: {status}\n" +
+               $"Tecnología: {technology}\n" +
+               $"ID del Trabajador: {WorkerAssigned?.Name ?? "No assignado"}\n";
         }
     }
 }
