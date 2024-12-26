@@ -47,7 +47,7 @@ namespace ConsoleApp
         {
             Console.WriteLine("Equipo: " + this.Name);
             Console.WriteLine("El manager es: ");
-            Console.WriteLine(Manager.printWorkerInfo());
+            Console.WriteLine(Manager?.printWorkerInfo() ?? "Este equipo no tiene manager, recuerda asignar uno antes de que transcurra el tiempo limite");
             for (int i = 0; i < Technicians.Count; i++)
             {
                 Console.WriteLine("Worker nº " + i);
@@ -70,6 +70,15 @@ namespace ConsoleApp
                 }
             }
             return taskByTeam;
+        }
+
+        public void RemoveWorker(Worker worker)
+        {
+            if (this.Manager.Equals(worker)) {
+                Console.WriteLine("Este equipo se ha quedado sin manager, deber seleccionar uno nuevo en los proximos 3 dias");
+                this.Manager = null;
+            }
+            this.Technicians.Remove(worker);
         }
 
     }

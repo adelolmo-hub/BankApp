@@ -58,6 +58,10 @@ namespace ConsoleApp
                 return true;
             }
         }
+        public void removeWorkerFromTask()
+        {
+            this.WorkerAssigned = null;
+        }
 
         private void incrementID()
         {

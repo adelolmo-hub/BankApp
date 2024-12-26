@@ -156,10 +156,42 @@ class Program
                     break;
                 case 11:
                     //11.Unregister IT worker
+                    Worker workerToRemove;
+                    bool customerInput;
+                    Console.WriteLine("Elige al trabajador que quieres eliminar");
+                    listAllWorkers();
+                    workerToRemove = (Worker)Utils.findByPosition(workers);
+                    Console.WriteLine("Has seleccionado este trabajador:\n" + workerToRemove.printWorkerInfo());
+                    Console.WriteLine("Estas seguro que lo quieres eliminar?");
+                    customerInput = Utils.CustomerConfirmAction();
+                    if (customerInput)
+                    {
+                        if (workerToRemove is ITWorker)
+                        {
+                            for (int y = 0; y < taskList.Count(); y++)
+                            {
+                                if (taskList[y].WorkerAssigned?.Equals(workerToRemove) ?? false)
+                                {
+                                    taskList[y].removeWorkerFromTask();
+                                }
+                            }
+                        }
+                        for (int y = 0; y < teamList.Count(); y++)
+                        {
+                            teamList[y].RemoveWorker(workerToRemove);
+                        }
+                        workers.Remove(workerToRemove);
+                        Console.WriteLine("Se ha eliminado correctamente");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Eliminacion cancelada");
+                    }
                     break;
                 case 12:
                     //12.Exit
                     menuLoop = false;
+                    Console.WriteLine("Cerrando sesion");
                     break;
             }
         }
