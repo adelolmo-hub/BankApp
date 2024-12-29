@@ -20,7 +20,7 @@ class Program
         ITWorker h = new ITWorker(6, new List<string> { ".Net", "JavaScript","SQL" }, "senior", "mikel", "maricon", new DateTime(2003, 05, 01), new DateTime(2024, 02, 01));
         ITWorker z = new ITWorker(7, new List<string> { ".Net", "SQL", "Java" }, "medium", "mikel", "maricon", new DateTime(2000, 03, 01), new DateTime(2024, 02, 01));
         ITWorker nuevoManager = new ITWorker(7, new List<string> { ".Net", "SQL", "Java" }, "senior", "nuevo", "nuevo", new DateTime(2000, 03, 01), new DateTime(2024, 02, 01));
-        Worker admin = new Worker(-1, "admin", "gay", new DateTime(2000, 05, 07), new DateTime(2026, 02, 01));
+        Worker admin = new Worker(0, "admin", "gay", new DateTime(2000, 05, 07), new DateTime(2026, 02, 01));
         Worker pringao = new Worker(-2, "noadmin", "gay", new DateTime(2000, 05, 07), new DateTime(2026, 02, 01));
         workers.Add(admin);
         workers.Add(pringao);
@@ -43,6 +43,19 @@ class Program
         Team team2 = new Team("Equipo 2", h, new List<Worker> {i,h,z});
         teamList.Add(team);
         teamList.Add(team2);
+
+        bool loginOK = false;
+        while (!loginOK)
+        {
+            Console.WriteLine("Introduce tu id de usuario");
+            int id = Utils.readInt();
+            Worker userLogin = WorkersHelper.FindWorkerById(workers, id);
+            if (userLogin != null)
+            {
+                ManageLogin login = new ManageLogin(userLogin);
+                loginOK = true;
+            }
+        }
 
         bool menuLoop = true;
         while (menuLoop)
