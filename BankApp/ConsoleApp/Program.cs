@@ -3,14 +3,12 @@ using ConsoleApp;
 
 class Program
 {
-    static List<Worker> workers = new List<Worker>();
+    public static List<Worker> workers = new List<Worker>();
     static List<ConsoleApp.Task> taskList = new List<ConsoleApp.Task>();
     static List<Team> teamList = new List<Team>();
+    static ManageLogin login;
     public static void Main(String[] args)
     {
-        workers = new List<Worker>();
-        taskList = new List<ConsoleApp.Task>();
-        teamList = new List<Team>();
 
         string menu = " 1. Register new IT worker\n 2. Register new team\n 3. Register new task (unassigned to anyone)\n 4. List all team names\n 5. List team members by team name\n 6. List unassigned tasks\n 7. List task assignments by team name\n 8. Assign IT worker to a team as manager\n 9. Assign IT worker to a team as technician\n 10.Assign task to IT worker\n 11.Unregister IT worker\n 12.Exit";
         int option;
@@ -45,6 +43,36 @@ class Program
         teamList.Add(team2);
 
         bool loginOK = false;
+        var menuClass = new Menu();
+
+        while (!loginOK)
+        {
+            Console.WriteLine("Introduce tu id de usuario");
+            int id = Utils.readInt();
+            Worker userLogin = WorkersHelper.FindWorkerById(workers, id);
+            if (userLogin != null)
+            {
+                login = new ManageLogin(userLogin);
+                if (login.Type != null)
+                {
+                    loginOK = true;
+                }
+                else
+                {
+                    Console.WriteLine("Este usuario no tiene premisos para acceder al sistema");
+                }
+            }
+        }
+
+        while (Menu.menuLoop)
+        {
+            Console.WriteLine("Introduce un numero para elegir una opcion");
+            Console.WriteLine(menuClass.PrintMenu(login.Type));
+            option = Utils.readInt();
+            menuClass.ActionSelected(login.Type,option);
+        }
+
+        /*
         while (!loginOK)
         {
             Console.WriteLine("Introduce tu id de usuario");
@@ -208,8 +236,9 @@ class Program
                     break;
             }
         }
+        */
     }
-
+        
     private static void printWorkers()
     {
         for (int y = 0; y < teamList.Count; y++)
@@ -293,42 +322,4 @@ class Program
         }
     }
 
-    private static ITWorker registerNewITWorker()
-    {
-        bool levelisinvalid = true;
-        int yearsOfExperience;
-        List<string> techKnowledges;
-        string level = "";
-        string name;
-        string surname;
-        DateTime birthDate;
-        DateTime leavingDate;
-        ITWorker worker;
-
-        Console.WriteLine("Introduce los años de experiencia");
-        yearsOfExperience = Utils.readInt();
-        
-        techKnowledges = Utils.readTecnologies();
-
-        while (levelisinvalid) {
-            Console.WriteLine("Introduce el nivel del trabajador");
-            level = Console.ReadLine();
-            levelisinvalid = !Utils.levelisValid(level,yearsOfExperience);
-        }
-        Console.WriteLine("Introduce el nombre del trabajador");
-        name = Console.ReadLine();
-
-        Console.WriteLine("Introduce el apellido del trabajador");
-        surname = Console.ReadLine();
-
-        Console.WriteLine("Introduce la fecha de nacimiento");
-        birthDate = Utils.readDate();
-
-        Console.WriteLine("Introduce la fecha de salida del trabajador");
-        leavingDate = Utils.readDate();
-
-        worker = new ITWorker(yearsOfExperience,techKnowledges,level,name,surname,birthDate, leavingDate);
-        return worker;
-
-    }
 }

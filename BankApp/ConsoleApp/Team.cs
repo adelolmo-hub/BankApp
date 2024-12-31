@@ -25,7 +25,12 @@ namespace ConsoleApp
                 Console.WriteLine("El trabajador debe ser senior para poder ser manager");
                 return false;
             }
+            if (this.Manager != null)
+            {
+                this.Manager.manager = false;
+            }
             this.Manager = iTWorker;
+            iTWorker.manager = true;
             return true;
         }
 

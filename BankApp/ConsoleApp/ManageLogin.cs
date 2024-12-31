@@ -12,11 +12,11 @@ namespace ConsoleApp
         private static readonly List<string> types = new List<string>
         {
             "Admin",
-            "Worker",
+            "Manager",
             "ITWorker",
         };
         private Worker _userLogin;
-        public string Type {  get; private set; }
+        public string Type { get; private set; } = null;
 
         public ManageLogin(Worker userLogin)
         {
@@ -30,13 +30,15 @@ namespace ConsoleApp
             {
                 Type = types[0];
             }
-            else if (_userLogin is ITWorker)
+            if (_userLogin is ITWorker itWorker)
             {
-                Type = types[2];
-            }
-            else 
-            {
-                Type = types[1];
+                if (itWorker.manager) {
+                    Type = types[1];
+                }
+                else
+                {
+                    Type = types[2];
+                }
             }
         }
     }
