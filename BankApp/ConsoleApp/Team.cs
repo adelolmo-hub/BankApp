@@ -6,7 +6,7 @@ namespace ConsoleApp
     {
         public string name;
         private ITWorker manager;
-        protected List<Worker> Technicians { get; private set; }
+        public List<Worker> Technicians { get; private set; }
         internal ITWorker Manager { get => manager; private set => manager = value; }
         public string Name { get => name; private set => name = value; }
 

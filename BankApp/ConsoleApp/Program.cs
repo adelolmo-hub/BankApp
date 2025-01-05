@@ -13,9 +13,9 @@ class Program
         string menu = " 1. Register new IT worker\n 2. Register new team\n 3. Register new task (unassigned to anyone)\n 4. List all team names\n 5. List team members by team name\n 6. List unassigned tasks\n 7. List task assignments by team name\n 8. Assign IT worker to a team as manager\n 9. Assign IT worker to a team as technician\n 10.Assign task to IT worker\n 11.Unregister IT worker\n 12.Exit";
         int option;
 
-        ITWorker i = new ITWorker(1,new List<string> { ".Net","JavaScript"},"junior","mikel","maricon",new DateTime(2003,05,01),new DateTime(2024,02,01));
-        ITWorker x = new ITWorker(5, new List<string> { ".Net","SQL" }, "senior", "mikel", "maricon", new DateTime(2000, 03, 01), new DateTime(2024, 02, 01));
-        ITWorker h = new ITWorker(6, new List<string> { ".Net", "JavaScript","SQL" }, "senior", "mikel", "maricon", new DateTime(2003, 05, 01), new DateTime(2024, 02, 01));
+        ITWorker i = new ITWorker(1, new List<string> { ".Net", "JavaScript" }, "junior", "mikel", "maricon", new DateTime(2003, 05, 01), new DateTime(2024, 02, 01));
+        ITWorker x = new ITWorker(5, new List<string> { ".Net", "SQL" }, "senior", "mikel", "maricon", new DateTime(2000, 03, 01), new DateTime(2024, 02, 01));
+        ITWorker h = new ITWorker(6, new List<string> { ".Net", "JavaScript", "SQL" }, "senior", "mikel", "maricon", new DateTime(2003, 05, 01), new DateTime(2024, 02, 01));
         ITWorker z = new ITWorker(7, new List<string> { ".Net", "SQL", "Java" }, "medium", "mikel", "maricon", new DateTime(2000, 03, 01), new DateTime(2024, 02, 01));
         ITWorker nuevoManager = new ITWorker(7, new List<string> { ".Net", "SQL", "Java" }, "senior", "nuevo", "nuevo", new DateTime(2000, 03, 01), new DateTime(2024, 02, 01));
         Worker admin = new Worker(0, "admin", "gay", new DateTime(2000, 05, 07), new DateTime(2026, 02, 01));
@@ -37,8 +37,8 @@ class Program
         taskList.Add(task3);
         taskList.Add(task4);
 
-        Team team = new Team("Equipo 1", x, new List<Worker> {i});
-        Team team2 = new Team("Equipo 2", h, new List<Worker> {i,h,z});
+        Team team = new Team("Equipo 1", x, new List<Worker> { i });
+        Team team2 = new Team("Equipo 2", h, new List<Worker> { i, h, z });
         teamList.Add(team);
         teamList.Add(team2);
 
@@ -69,185 +69,128 @@ class Program
             Console.WriteLine("Introduce un numero para elegir una opcion");
             Console.WriteLine(menuClass.PrintMenu(login.Type));
             option = Utils.readInt();
-            menuClass.ActionSelected(login.Type,option);
+            menuClass.ActionSelected(login.Type, option);
         }
-
-        /*
-        while (!loginOK)
-        {
-            Console.WriteLine("Introduce tu id de usuario");
-            int id = Utils.readInt();
-            Worker userLogin = WorkersHelper.FindWorkerById(workers, id);
-            if (userLogin != null)
-            {
-                ManageLogin login = new ManageLogin(userLogin);
-                loginOK = true;
-            }
-        }
-
-        bool menuLoop = true;
-        while (menuLoop)
-        {
-            Console.WriteLine("Introduce un numero para elegir una opcion");
-            Console.WriteLine(menu);
-            option = Utils.readInt();
-            switch (option) 
-            {
-                case 1:
-                    // 1. Register new IT worker
-                    workers.Add(registerNewITWorker());
-                    break;
-                case 2:
-                    // 2. Register new team
-                    createTeam();
-                    break;
-                case 3:
-                    //3. Register new task (unassigned to anyone)
-                    createTask();
-                    break;
-                case 4:
-                    // 4. List all team names
-                    printTeams();
-                    break;
-                case 5:
-                    //5. List team members by team name
-                    printWorkers();
-                    break;
-                case 6:
-                    //6. List unassigned tasks
-                    for (int y = 0; y < taskList.Count; y++)
-                    {
-                        if (taskList[y].WorkerAssigned == null)
-                        {
-                            Console.WriteLine(taskList[y].ToString());
-                        }
-                    }
-                    break;
-                case 7:
-                    //7. List task assignments by team name
-                    for (int y = 0; y < teamList.Count; y++)
-                    {
-                        Console.WriteLine("Equipo: " + teamList[y].name);
-                        Console.WriteLine(teamList[y].GetTasksAssigned(taskList));
-                        Console.WriteLine("---------------------------------------");
-                    }
-                    break;
-                case 8:
-                    //8.Assign IT worker to a team as manager
-                    Team selectedTeam;
-                    Worker selectedManager;
-                    Console.WriteLine("Selecciona el equipo al que quieres cambiar el manager");
-                    printTeams();
-                    selectedTeam = (Team)Utils.findByPosition(teamList);
-                    Console.WriteLine("Elige quien va a ser el nuevo manager");
-                    listAllWorkers();
-                    selectedManager = (Worker)Utils.findByPosition(workers);
-                    if(selectedManager is ITWorker)
-                    {
-                        selectedTeam.AssignTeamManager((ITWorker)selectedManager);
-                    }
-                    else
-                    {
-                        Console.WriteLine("El trabajador que has seleccionado no es un trabajador IT por lo que no puede ser Manager");
-                    }
-                    break;
-                case 9:
-                    //9.Assign IT worker to a team as technician
-                    Team teamSelected;
-                    Worker selectedWorker;
-                    Console.WriteLine("Selecciona el equipo al que quieres añadir un trabajador");
-                    printTeams();
-                    teamSelected = (Team)Utils.findByPosition(teamList);
-                    Console.WriteLine("Elige quien va a ser el nuevo trabajador");
-                    listAllWorkers();
-                    selectedWorker = (Worker)Utils.findByPosition(workers);
-                    if (selectedWorker is ITWorker)
-                    {
-                        teamSelected.AssignNewTechnician((ITWorker)selectedWorker);
-                    }
-                    else
-                    {
-                        Console.WriteLine("El trabajador que has seleccionado no es un trabajador IT por lo que no puede ser Manager");
-                    }
-                    break;
-                case 10:
-                    //10.Assign task to IT worker
-                    ConsoleApp.Task selectedTask;
-                    Worker workerSelected;
-                    Console.WriteLine("Selecciona la tarea que quieres assignar");
-                    for (int y = 0; y < taskList.Count; y++)
-                    {
-                        Console.WriteLine("Tarea nº: " + (y+1));
-                        Console.WriteLine(taskList[y].ToString());
-                        Console.WriteLine("----------------------------");
-                    }
-                    selectedTask = (ConsoleApp.Task)Utils.findByPosition(taskList);
-                    Console.WriteLine("Elige al trabajador asignado");
-                    listAllWorkers();
-                    workerSelected = (Worker)Utils.findByPosition(workers);
-                    if (workerSelected is ITWorker)
-                    {
-                        selectedTask.AssignWorkerToTask((ITWorker)workerSelected);
-                    }
-                    else
-                    {
-                        Console.WriteLine("El trabajador que has seleccionado no es un trabajador IT por lo que no puede ser Manager");
-                    }
-
-                    break;
-                case 11:
-                    //11.Unregister IT worker
-                    Worker workerToRemove;
-                    bool customerInput;
-                    Console.WriteLine("Elige al trabajador que quieres eliminar");
-                    listAllWorkers();
-                    workerToRemove = (Worker)Utils.findByPosition(workers);
-                    Console.WriteLine("Has seleccionado este trabajador:\n" + workerToRemove.printWorkerInfo());
-                    Console.WriteLine("Estas seguro que lo quieres eliminar?");
-                    customerInput = Utils.CustomerConfirmAction();
-                    if (customerInput)
-                    {
-                        if (workerToRemove is ITWorker)
-                        {
-                            for (int y = 0; y < taskList.Count(); y++)
-                            {
-                                if (taskList[y].WorkerAssigned?.Equals(workerToRemove) ?? false)
-                                {
-                                    taskList[y].removeWorkerFromTask();
-                                }
-                            }
-                        }
-                        for (int y = 0; y < teamList.Count(); y++)
-                        {
-                            teamList[y].RemoveWorker(workerToRemove);
-                        }
-                        workers.Remove(workerToRemove);
-                        Console.WriteLine("Se ha eliminado correctamente");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Eliminacion cancelada");
-                    }
-                    break;
-                case 12:
-                    //12.Exit
-                    menuLoop = false;
-                    Console.WriteLine("Cerrando sesion");
-                    break;
-            }
-        }
-        */
     }
-        
-    private static void printWorkers()
+
+       
+
+    public static void UnregisterWorker()
+    {
+        Worker workerToRemove;
+        bool customerInput;
+        Console.WriteLine("Elige al trabajador que quieres eliminar");
+        listAllWorkers();
+        workerToRemove = (Worker)Utils.findByPosition(workers);
+        Console.WriteLine("Has seleccionado este trabajador:\n" + workerToRemove.printWorkerInfo());
+        Console.WriteLine("Estas seguro que lo quieres eliminar?");
+        customerInput = Utils.CustomerConfirmAction();
+        if (customerInput)
+        {
+            if (workerToRemove is ITWorker)
+            {
+                for (int y = 0; y < taskList.Count(); y++)
+                {
+                    if (taskList[y].WorkerAssigned?.Equals(workerToRemove) ?? false)
+                    {
+                        taskList[y].removeWorkerFromTask();
+                    }
+                }
+            }
+            for (int y = 0; y < teamList.Count(); y++)
+            {
+                teamList[y].RemoveWorker(workerToRemove);
+            }
+            workers.Remove(workerToRemove);
+            Console.WriteLine("Se ha eliminado correctamente");
+        }
+        else
+        {
+            Console.WriteLine("Eliminacion cancelada");
+        }
+    }
+    public static void AssignTask()
+    {
+        ConsoleApp.Task selectedTask;
+        Worker workerSelected;
+        Console.WriteLine("Selecciona la tarea que quieres assignar");
+        for (int y = 0; y < taskList.Count; y++)
+        {
+            Console.WriteLine("Tarea nº: " + (y + 1));
+            Console.WriteLine(taskList[y].ToString());
+            Console.WriteLine("----------------------------");
+        }
+        selectedTask = (ConsoleApp.Task)Utils.findByPosition(taskList);
+        if (login.Type.Equals("ITWorker")) {
+            selectedTask.AssignWorkerToTask((ITWorker)login._userLogin);
+        }
+        else
+        {
+            Console.WriteLine("Elige al trabajador asignado");
+            listAllWorkers();
+            workerSelected = (Worker)Utils.findByPosition(workers);
+            if (workerSelected is ITWorker)
+            {
+                selectedTask.AssignWorkerToTask((ITWorker)workerSelected);
+            }
+            else
+            {
+                Console.WriteLine("El trabajador que has seleccionado no es un trabajador IT por lo que no puede ser Manager");
+            }
+        }
+    }
+    public static void printWorkers()
     {
         for (int y = 0; y < teamList.Count; y++)
         {
-            teamList[y].PrintWorkerInfo();
+            if(login.Type.Equals("Admin") || teamList[y].Manager.Equals(login._userLogin))
+            {
+                teamList[y].PrintWorkerInfo();
+            }
+        }
+    }
+    public static void printUnassignedTasks()
+    {
+        for (int y = 0; y < taskList.Count; y++)
+        {
+            if (taskList[y].WorkerAssigned == null)
+            {
+                Console.WriteLine(taskList[y].ToString());
+            }
+        }
+    }
+    public static void AssignManagerToATeam()
+    {
+        Team selectedTeam;
+        Worker selectedManager;
+        Console.WriteLine("Selecciona el equipo al que quieres cambiar el manager");
+        PrintTeams();
+        selectedTeam = (Team)Utils.findByPosition(teamList);
+        Console.WriteLine("Elige quien va a ser el nuevo manager");
+        listAllWorkers();
+        selectedManager = (Worker)Utils.findByPosition(workers);
+        if (selectedManager is ITWorker)
+        {
+            selectedTeam.AssignTeamManager((ITWorker)selectedManager);
+        }
+        else
+        {
+            Console.WriteLine("El trabajador que has seleccionado no es un trabajador IT por lo que no puede ser Manager");
         }
     }
 
-    private static void printTeams()
+    public static void ListTaskAsignementByTeamName()
+    {
+        for (int y = 0; y < teamList.Count; y++)
+        {
+            if (login.Type.Equals("Admin") || teamList[y].Technicians.Contains(login._userLogin) || teamList[y].Manager.Equals(login._userLogin)) {
+                Console.WriteLine("Equipo: " + teamList[y].name);
+                Console.WriteLine(teamList[y].GetTasksAssigned(taskList));
+                Console.WriteLine("---------------------------------------");
+            }
+        }
+    }
+    public static void PrintTeams()
     {
         for (int y = 0; y < teamList.Count; y++)
         {
@@ -255,7 +198,7 @@ class Program
         }
     }
 
-    static void createTeam()
+    public static void createTeam()
     {
         bool moreWorkers = true;
         int idWorker;
@@ -293,8 +236,26 @@ class Program
         }
         Team newTeam = new Team(name, manager, workerList);
     }
-
-    static void createTask()
+    public static void AssignTechnicianToTeam()
+    {
+        Team teamSelected;
+        Worker selectedWorker;
+        Console.WriteLine("Selecciona el equipo al que quieres añadir un trabajador");
+        PrintTeams();
+        teamSelected = (Team)Utils.findByPosition(teamList);
+        Console.WriteLine("Elige quien va a ser el nuevo trabajador");
+        listAllWorkers();
+        selectedWorker = (Worker)Utils.findByPosition(workers);
+        if (selectedWorker is ITWorker)
+        {
+            teamSelected.AssignNewTechnician((ITWorker)selectedWorker);
+        }
+        else
+        {
+            Console.WriteLine("El trabajador que has seleccionado no es un trabajador IT por lo que no puede ser Manager");
+        }
+    }
+    public static void createTask()
     {
         string description = "";
         string status = "";

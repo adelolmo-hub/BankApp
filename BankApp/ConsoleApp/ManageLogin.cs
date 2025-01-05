@@ -15,7 +15,7 @@ namespace ConsoleApp
             "Manager",
             "ITWorker",
         };
-        private Worker _userLogin;
+        public Worker _userLogin { get; private set; }
         public string Type { get; private set; } = null;
 
         public ManageLogin(Worker userLogin)

@@ -7,7 +7,7 @@ namespace ConsoleApp
         public static bool menuLoop = true;
         private Dictionary<string, List<string>> MenuPorUsuario = new Dictionary<string, List<string>>
         {
-            {"Admin", new List<string>{ "1. Register new IT worker", "2. Register new team", "3. Register new task (unassigned to anyone)", "4. List all team names", "5. List team members by team name", "6. List unassigned tasks", "7.List task assignments by team name", "8. Assign IT worker to a team as manager", "9. Assign IT worker to a team as technician", "10.Assign task to IT worker", "11.Unregister IT worker", "12.Exit" } },
+            {"Admin", new List<string>{ "1. Register new IT worker", "2. Register new team", "3. Register new task (unassigned to anyone)", "4. List all team names", "5. List team members by team name", "6. List unassigned tasks", "7. List task assignments by team name", "8. Assign IT worker to a team as manager", "9. Assign IT worker to a team as technician", "10.Assign task to IT worker", "11.Unregister IT worker", "12.Exit" } },
             {"Manager", new List<string>{ "1. List team members in my team", "2. List unassigned tasks", "3.List task assignments in my team", "4. Assign IT worker to a team as technician", "5.Assign task to IT worker", "6.Exit" } },
             {"ITWorker", new List<string>{ "1. List unassigned tasks", "2.List task assignments in my team", "3.Assign task to me", "4.Exit" } }
         };
@@ -17,36 +17,36 @@ namespace ConsoleApp
                 "Admin", new Dictionary<int, Action>
                 {
                     { 1 ,() => registerNewITWorker() },
-                    { 2 ,() => Uno() },
-                    { 3 ,() => Uno() },
-                    { 4 ,() => Uno() },
-                    { 5 ,() => Uno() },
-                    { 6 ,() => Uno() },
-                    { 7 ,() => Uno() },
-                    { 8 ,() => Uno() },
-                    { 9 ,() => Uno() },
-                    { 10 ,() => Uno() },
-                    { 11 ,() => Uno() },
+                    { 2 ,() =>  Program.createTeam() },
+                    { 3 ,() => Program.createTask() },
+                    { 4 ,() => Program.PrintTeams() },
+                    { 5 ,() => Program.printWorkers() },
+                    { 6 ,() => Program.printUnassignedTasks() },
+                    { 7 ,() => Program.ListTaskAsignementByTeamName()},
+                    { 8 ,() => Program.AssignManagerToATeam() },
+                    { 9 ,() => Program.AssignTechnicianToTeam() },
+                    { 10 ,() => Program.AssignTask() },
+                    { 11 ,() => Program.UnregisterWorker() },
                     { 12 ,() => Exit() }
                 }
             },
             {
                 "Manager", new Dictionary<int, Action>
                 {
-                        { 1 ,() => Uno() },
-                        { 2 ,() => Uno() },
-                        { 3 ,() => Uno() },
-                        { 4 ,() => Uno() },
-                        { 5 ,() => Uno() },
+                        { 1 ,() => Program.printWorkers() },
+                        { 2 ,() => Program.printUnassignedTasks() },
+                        { 3 ,() => Program.ListTaskAsignementByTeamName() },
+                        { 4 ,() => Program.AssignTechnicianToTeam() },
+                        { 5 ,() => Program.AssignTask() },
                         { 6 ,() => Exit() }
                 }
             },
             {
                 "ITWorker", new Dictionary<int, Action>
                 {
-                        { 1 ,() => Uno() },
-                        { 2 ,() => Uno() },
-                        { 3 ,() => Uno() },
+                        { 1 ,() => Program.printUnassignedTasks() },
+                        { 2 ,() => Program.ListTaskAsignementByTeamName() },
+                        { 3 ,() => Program.AssignTask() },
                         { 4 ,() => Exit() }
                 }
             }
@@ -60,10 +60,6 @@ namespace ConsoleApp
                 menu += item.ToString() + "\n";
             }
             return menu;
-        }
-        public static void Uno()
-        {
-
         }
         public static void Exit()
         {
