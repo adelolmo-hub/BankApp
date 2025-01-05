@@ -4,7 +4,8 @@
     {
         private int yearsOfExperience;
         private List<string> techKnowledges;
-        private string level;
+        private string level; 
+        public bool manager { get; set; }
 
         
 

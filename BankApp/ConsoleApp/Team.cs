@@ -6,7 +6,7 @@ namespace ConsoleApp
     {
         public string name;
         private ITWorker manager;
-        protected List<Worker> Technicians { get; private set; }
+        public List<Worker> Technicians { get; private set; }
         internal ITWorker Manager { get => manager; private set => manager = value; }
         public string Name { get => name; private set => name = value; }
 
@@ -25,7 +25,12 @@ namespace ConsoleApp
                 Console.WriteLine("El trabajador debe ser senior para poder ser manager");
                 return false;
             }
+            if (this.Manager != null)
+            {
+                this.Manager.manager = false;
+            }
             this.Manager = iTWorker;
+            iTWorker.manager = true;
             return true;
         }
 
